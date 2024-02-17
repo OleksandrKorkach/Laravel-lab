@@ -27,4 +27,9 @@ class Project extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function statuses(): BelongsToMany
+    {
+        return $this->belongsToMany(Status::class);
+    }
+
 }
