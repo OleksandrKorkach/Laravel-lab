@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();
@@ -53,7 +53,7 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->unsignedBigInteger('status_id');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->timestamp('deadline');
             $table->boolean('is_active');
             $table->timestamps();

@@ -16,7 +16,7 @@ class ProjectSeeder extends Seeder
     {
         $userIds = User::pluck('id')->toArray();
 
-        Project::factory()->count(50)->create([
+        Project::factory()->count(20)->create([
             'user_id' => function () use ($userIds) {
                 return Arr::random($userIds);
             }

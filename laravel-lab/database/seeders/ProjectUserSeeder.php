@@ -16,7 +16,7 @@ class ProjectUserSeeder extends Seeder
         foreach ($projects as $project) {
             $this->addUserToProjectIfNotExists($project, $project->creator->id);
 
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 8; $i++) {
                 $user = User::inRandomOrder()->first()->id;
                 $this->addUserToProjectIfNotExists($project, $user);
             }

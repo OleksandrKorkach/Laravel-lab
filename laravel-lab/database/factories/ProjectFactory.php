@@ -12,7 +12,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(5),
-            'description' => $this->faker->paragraph(2),
+            'description' => $this->faker->paragraph(3),
             'user_id' => User::inRandomOrder()->first()->id,
         ];
     }

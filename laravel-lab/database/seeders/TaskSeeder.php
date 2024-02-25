@@ -10,6 +10,6 @@ class TaskSeeder extends Seeder
 {
     public function run(): void
     {
-        Task::factory()->count(200)->create();
+        Task::factory()->count(2000)->create();
     }
 }
