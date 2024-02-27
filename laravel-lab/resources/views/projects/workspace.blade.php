@@ -1,20 +1,15 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-3">
-            {{ __($project->name) }}
-        </h2>
-    </x-slot>
 
-    <div class="border">
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-white overflow-hidden shadow-sm">
-                <div class="flex">
-                    <div class="w-2/12 flex flex-col text-center p-10 bg-gray-200 h-dvh">
-                        <button class="p-3 border-b border-gray-400 tab-btn" data-target="tab-content-1">Task Table</button>
-                        <button class="p-3 border-b border-gray-400 tab-btn" data-target="tab-content-2">Team</button>
-                        <button class="p-3 tab-btn" data-target="tab-content-3">Settings</button>
+    <div class="border-t">
+        <div class="max-w-7xl mx-auto ">
+            <div class="overflow-hidden shadow-sm">
+                <div class="p-6">
+                    <div class="flex gap-4">
+                        <button class="font-semibold hover:font-bold tab-btn" data-target="tab-content-1">Завдання &#128196;</button>
+                        <button class="hover:font-bold tab-btn" data-target="tab-content-2">Команда &#128101;</button>
+                        <button class="tab-btn hover:font-bold" data-target="tab-content-3">Налаштування &#9881;</button>
                     </div>
-                    <div class="w-10/12 p-8">
+                    <div class="w-full mt-6">
                         <div id="tab-content-1" class="">
                             @include('projects.partial.task-table-tab')
                         </div>
@@ -31,26 +26,61 @@
         </div>
     </div>
     <script>
-        // Получение кнопок вкладок
         const tabs = document.querySelectorAll('.tab-btn');
 
-        // Получение блоков контента
         const contents = document.querySelectorAll('[id^=tab-content]');
 
-        // Добавление обработчика событий для каждой вкладки
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Скрытие всех блоков контента
                 contents.forEach(content => {
                     content.classList.add('hidden');
                 });
 
-                // Отображение только выбранного блока контента
+                tabs.forEach(tab => {
+                    tab.classList.remove('font-semibold');
+                });
+                tab.classList.add('font-semibold');
+
                 const targetId = tab.getAttribute('data-target');
                 const targetContent = document.getElementById(targetId);
                 targetContent.classList.remove('hidden');
+
+                // После изменения вкладки, изменяем URL-адрес страницы
+                history.pushState(null, null, '#' + targetId);
             });
         });
+
+        // При загрузке страницы, проверяем хэш и отображаем соответствующую вкладку
+        window.onload = () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetId = hash.replace('#', '');
+                const targetTab = document.querySelector(`[data-target="${targetId}"]`);
+                if (targetTab) {
+                    targetTab.click();
+                }
+            }
+        };
+        // const tabs = document.querySelectorAll('.tab-btn');
+        //
+        // const contents = document.querySelectorAll('[id^=tab-content]');
+        //
+        // tabs.forEach(tab => {
+        //     tab.addEventListener('click', () => {
+        //         contents.forEach(content => {
+        //             content.classList.add('hidden');
+        //         });
+        //
+        //         tabs.forEach(tab => {
+        //             tab.classList.remove('font-semibold');
+        //         });
+        //         tab.classList.add('font-semibold');
+        //
+        //         const targetId = tab.getAttribute('data-target');
+        //         const targetContent = document.getElementById(targetId);
+        //         targetContent.classList.remove('hidden');
+        //     });
+        // });
     </script>
 </x-app-layout>
 

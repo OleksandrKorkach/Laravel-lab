@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\StoreProjectRequest;
+use App\Models\enums\TaskStatus;
 use App\Models\Project;
+use App\Models\Status;
+use App\Models\Task;
 use App\Models\User;
 use App\Services\ProjectService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -27,11 +31,16 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function get($id): View
+    public function show($projectId): View
     {
-        $project = $this->projectService->getProject($id);
+        $project = $this->projectService->getProject($projectId);
+        $statuses = $this->projectService->getTaskStatuses();
+        $tasks = $this->projectService->getProjectTasks($projectId);
+
         return view('projects.workspace', [
             'project' => $project,
+            'statuses' => $statuses,
+            'tasks' => $tasks,
         ]);
     }
 
@@ -46,11 +55,26 @@ class ProjectController extends Controller
         return redirect()->to('/projects');
     }
 
-    public function getProjectUsersToAdd($projectId, Request $request): View
+    public function edit(): RedirectResponse
+    {
+        return redirect()->to(route('projects.index'));
+    }
+
+    public function update(): RedirectResponse
+    {
+        return redirect()->to(route('projects.index'));
+    }
+
+    public function destroy($projectId): RedirectResponse
+    {
+        $this->projectService->destroyProject($projectId);
+        return redirect()->to('/projects');
+    }
+
+    public function searchAvailableUsers($projectId, Request $request): View
     {
         $project = Project::find($projectId);
-
-        $availableUsers = $this->projectService->searchUserByName($request->input('query'));
+        $availableUsers = $this->projectService->searchUsersByName($request->input('query'));
 
         return view('projects.add-user', [
             'project' => $project,
@@ -58,11 +82,37 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function addUserToProject($project, Request $request): RedirectResponse
+    public function addMember(Request $request): RedirectResponse
     {
-        $this->projectService->addUserToProject($request->input('user_id'), $project);
-        return redirect()->to('/projects/' . $project);
+        $projectId = $request->input('projectId');
+        $userId = $request->input('userId');
+
+        $this->projectService->addMember($userId, $projectId);
+
+        return redirect()
+            ->to(route('projects.show', $projectId))
+            ->withFragment('tab-content-2');
     }
 
+    public function deleteMember(Request $request): RedirectResponse
+    {
+        $projectId = $request->input('projectId');
+        $userId = $request->input('userId');
+
+        $this->projectService->deleteMember($userId, $projectId);
+
+        return redirect()
+            ->to(route('projects.show', $projectId))
+            ->withFragment('tab-content-2');
+    }
+
+    public function storeStatuses($projectId, Request $request): RedirectResponse
+    {
+        $this->projectService->storeProjectStatuses($request->input('status_ids', []), $projectId);
+
+        return redirect()
+            ->to(route('projects.show', $projectId))
+            ->withFragment('tab-content-3');
+    }
 
 }

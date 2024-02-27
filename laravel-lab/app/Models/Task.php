@@ -15,7 +15,7 @@ class Task extends Model
     protected $fillable = [
         'title',
         'description',
-        'deadline'
+        'deadline',
     ];
 
     public function project(): BelongsTo

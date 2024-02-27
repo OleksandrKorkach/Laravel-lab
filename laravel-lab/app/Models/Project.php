@@ -32,4 +32,9 @@ class Project extends Model
         return $this->belongsToMany(Status::class);
     }
 
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
 }

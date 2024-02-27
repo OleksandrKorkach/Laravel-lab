@@ -18,14 +18,14 @@
         @method('post')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Title')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-5/12"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="description" :value="__('Description')" />
-            <x-text-input id="description" name="description" type="text" class="mt-1 block w-5/12"/>
+            <textarea id="description" name="description" class="mt-1 block w-full h-[200px] rounded"></textarea>
             <x-input-error class="mt-2" :messages="$errors->get('description')" />
         </div>
 

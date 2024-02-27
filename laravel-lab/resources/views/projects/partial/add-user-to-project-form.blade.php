@@ -15,7 +15,7 @@
                 @csrf
             </form>
 
-            <form method="get" action="{{ route('projects.add-user', ['project' => $project->id])}}" class="mt-6 space-y-6" enctype="multipart/form-data">
+            <form method="get" action="{{ route('projects.search-available-users', $project->id)}}" class="mt-6 space-y-6" enctype="multipart/form-data">
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
                     <x-text-input id="name" name="query" type="text" class="mt-1 block w-12/12"/>
@@ -32,14 +32,14 @@
             <div class="flex flex-wrap">
                 @foreach($users as $user)
                     @if (!$project->users->contains($user))
-                    <div class="flex items-center p-4 min-w-[33%]">
+                    <div class="flex items-center p-4 min-w-[50%]">
                         <div id="name" class="text-xl font-bold">
                             {{$user->name}}
                         </div>
                         <div>
-                            <form action="{{ route('projects.add-user', ['project' => $project->id, 'user_id' => $user->id]) }}" method="POST">
+                            <form action="{{ route('projects.add-member', ['projectId' => $project->id, 'userId' => $user->id]) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="bg-blue-400 flex justify-center items-center rounded w-6 h-6 font-bold text-2xl text-white ml-2">
+                                <button type="submit" class="bg-gray-800 hover:bg-gray-700 flex justify-center items-center rounded w-6 h-6 font-bold text-2xl text-white ml-2">
                                     +
                                 </button>
                             </form>

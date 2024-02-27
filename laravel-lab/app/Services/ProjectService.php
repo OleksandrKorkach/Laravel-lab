@@ -4,8 +4,11 @@ namespace App\Services;
 
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Models\Project;
+use App\Models\Status;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectService
@@ -30,10 +33,12 @@ class ProjectService
         $project->user_id = Auth::id();
 
         $project->save();
+
         $project->users()->attach($user);
+        $project->statuses()->attach([Status::TODO, Status::IN_PROGRESS, Status::DONE]);
     }
 
-    public function searchUserByName(mixed $query)
+    public function searchUsersByName(mixed $query)
     {
         if (!empty($query)) {
             return User::query()
@@ -47,7 +52,7 @@ class ProjectService
         }
     }
 
-    public function addUserToProject($userId, $projectId)
+    public function addMember($userId, $projectId): void
     {
         $user = User::find($userId);
         $project = Project::find($projectId);
@@ -55,5 +60,35 @@ class ProjectService
         $project->users()->attach($user);
     }
 
+    public function deleteMember($userId, $projectId): void
+    {
+        $user = User::find($userId);
+        $project = Project::find($projectId);
+
+        $project->users()->detach($user);
+    }
+
+    public function getTaskStatuses(): Collection
+    {
+        return Status::all();
+    }
+
+    public function getProjectTasks($id): Collection|array
+    {
+        return Task::query()
+            ->where('project_id', $id)
+            ->get();
+    }
+
+    public function destroyProject($projectId): void
+    {
+        Project::destroy($projectId);
+    }
+
+    public function storeProjectStatuses(mixed $selectedStatusIds, $projectId): void
+    {
+        $project = Project::findOrFail($projectId);
+        $project->statuses()->sync($selectedStatusIds);
+    }
 
 }
