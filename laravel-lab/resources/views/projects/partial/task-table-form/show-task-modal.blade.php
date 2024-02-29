@@ -16,8 +16,8 @@
                 }
             @endphp
 
-            <div class="text-right {{$hoursUntilDeadline < 0 ? 'text-red-500':''}}">
-                <h2>{{$hoursUntilDeadline < 0 ? 'Протерміновано!':''}} {{ $formattedDeadline }}</h2>
+            <div class="text-right {{$secondsUntilDeadline < 0 ? 'text-red-500':''}}">
+                <h2>{{$secondsUntilDeadline < 0 ? 'Протерміновано!':''}} {{ $formattedDeadline }}</h2>
             </div>
         @endif
         <div>

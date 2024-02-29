@@ -66,6 +66,14 @@ class ProjectService
         $project = Project::find($projectId);
 
         $project->users()->detach($user);
+
+        $tasks = $project->tasks()->whereHas('users', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        foreach ($tasks as $task) {
+            $task->users()->detach($userId);
+        }
     }
 
     public function getTaskStatuses(): Collection

@@ -39,4 +39,12 @@ class TaskService
         $task->users()->detach($user);
     }
 
+    public function updateStatus(mixed $taskId, mixed $newStatusId)
+    {
+        $task = Task::find($taskId);
+
+        $task->status_id = $newStatusId;
+        $task->save();
+    }
+
 }

@@ -26,7 +26,7 @@
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" class="w-[28px] h-[28px] rounded-md bg-red-500 text-white text-[17px] text-center">
+                                <button type="submit" class="w-[28px] ml-2 h-[28px] rounded-md bg-red-500 text-white text-[17px] text-center">
                                     x
                                 </button>
                             </form>

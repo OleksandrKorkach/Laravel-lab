@@ -32,7 +32,7 @@
             <div class="flex flex-wrap">
                 @foreach($users as $user)
                     @if (!$project->users->contains($user))
-                    <div class="flex items-center p-4 min-w-[50%]">
+                    <div class="flex items-center justify-between p-4 min-w-[50%]">
                         <div id="name" class="text-xl font-bold">
                             {{$user->name}}
                         </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::middleware('auth')->group(function () {
 
     Route::prefix('profile')->group(function () {
@@ -15,7 +16,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-    Route::resource('projects', ProjectController::class);
+    Route::redirect('/', '/projects');
 
     Route::prefix('projects')->group(function () {
         Route::post('/add-member', [ProjectController::class, 'addMember'])->name('projects.add-member');
@@ -24,13 +25,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/{projectId}/store-statuses', [ProjectController::class, 'storeStatuses'])->name('projects.statuses.store');
     });
 
+    Route::resource('projects', ProjectController::class);
+
     Route::prefix('tasks')->group(function () {
         Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
         Route::delete('/', [TaskController::class, 'destroy'])->name('tasks.destroy');
         Route::delete('/delete-assignee', [TaskController::class, 'deleteAssignee'])->name('tasks.delete-assignee');
+        Route::post('/update-status', [TaskController::class, 'updateStatus'])->name('tasks.update-status');
     });
-
-
 });
 
 require __DIR__.'/auth.php';
