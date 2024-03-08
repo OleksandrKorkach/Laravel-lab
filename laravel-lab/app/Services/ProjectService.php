@@ -76,7 +76,7 @@ class ProjectService
         }
     }
 
-    public function getTaskStatuses(): Collection
+    public function getAllStatuses(): Collection
     {
         return Status::all();
     }
@@ -97,6 +97,15 @@ class ProjectService
     {
         $project = Project::findOrFail($projectId);
         $project->statuses()->sync($selectedStatusIds);
+    }
+
+    public function updateProject($projectId, Request $request): void
+    {
+        $project = Project::find($projectId);
+
+        $project->name = $request->input('name');
+        $project->description = $request->input('description');
+        $project->save();
     }
 
 }

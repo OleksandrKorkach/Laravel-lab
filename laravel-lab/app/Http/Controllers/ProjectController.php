@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\StoreProjectRequest;
-use App\Models\enums\TaskStatus;
 use App\Models\Project;
 use App\Models\Status;
-use App\Models\Task;
-use App\Models\User;
 use App\Services\ProjectService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -34,7 +30,7 @@ class ProjectController extends Controller
     public function show($projectId): View
     {
         $project = $this->projectService->getProject($projectId);
-        $statuses = $this->projectService->getTaskStatuses();
+        $statuses = $this->projectService->getAllStatuses();
         $tasks = $this->projectService->getProjectTasks($projectId);
 
         return view('projects.workspace', [
@@ -55,14 +51,12 @@ class ProjectController extends Controller
         return redirect()->to('/projects');
     }
 
-    public function edit(): RedirectResponse
+    public function update($projectId, Request $request): RedirectResponse
     {
-        return redirect()->to(route('projects.index'));
-    }
-
-    public function update(): RedirectResponse
-    {
-        return redirect()->to(route('projects.index'));
+        $this->projectService->updateProject($projectId, $request);
+        return redirect()
+            ->to(route('projects.show', $projectId))
+            ->withFragment('tab-content-3');
     }
 
     public function destroy($projectId): RedirectResponse

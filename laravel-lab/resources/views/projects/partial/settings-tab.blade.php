@@ -1,18 +1,26 @@
 <section>
-    @if(Auth::id() == $project->creator->id)
         <div class="">
             <div class="font-semibold text-center text-xl">
-                <h2>Колонки</h2>
+                <h2>Інформація про проект</h2>
+            </div>
+            <div>
+                @include('projects.partial.settings.edit-project-info')
             </div>
 
-            <div>
-                @include('projects.partial.settings.set-columns')
-            </div>
+            @if($userIsCreator)
+                <div class="mt-4 font-semibold text-center text-xl">
+                    <h2>Колонки</h2>
+                </div>
+
+                <div>
+                    @include('projects.partial.settings.set-columns')
+                </div>
+            @endif
         </div>
-    @endif
+
 
     <div class="mt-4">
-        @if(Auth::id() == $project->creator->id)
+        @if($userIsCreator)
             <form action="{{ route('projects.destroy', $project->id) }}" method="POST">
                 @csrf
                 @method('DELETE')

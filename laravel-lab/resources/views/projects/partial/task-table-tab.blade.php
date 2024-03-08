@@ -35,7 +35,7 @@
                             class="
                             bg-white block p-2 shadow-md font-semibold text-[17px] text-left hover:bg-gray-100
                             {{$isUserAssigned ? 'border-l-4 border-green-400': ''}}
-                            {{$isDeadlineMissed && $isUserAssigned ? 'bg-red-200 hover:bg-red-300 border-l-4 border-red-500': ''}}
+                            {{$isDeadlineMissed && $isUserAssigned ? 'border-l-4 border-red-500': ''}}
                             {{$isDeadlineToday && $isUserAssigned ? 'border-l-4 border-orange-400': ''}}
                             "
                             id="task-{{ $task->id }}"
@@ -118,5 +118,6 @@
             }
         }
     }
+
 </script>
 

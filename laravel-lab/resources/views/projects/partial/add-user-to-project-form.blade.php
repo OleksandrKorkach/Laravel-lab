@@ -1,5 +1,5 @@
 <section>
-    <div class="flex">
+    <div class="flex min-h-screen">
         <div id="search_form" class="w-3/12 p-4">
             <header>
                 <h2 class="text-lg font-medium text-gray-900">

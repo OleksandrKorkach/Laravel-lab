@@ -20,14 +20,23 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
+        Schema::create('project_user_roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type')->default('SYSTEM');
+            $table->timestamps();
+        });
+
         Schema::create('project_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('role_id')->default(19);
             $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('project_user_roles');
         });
 
         Schema::create('statuses', function (Blueprint $table) {
@@ -93,6 +102,7 @@ return new class extends Migration
         Schema::dropIfExists('project_status');
         Schema::dropIfExists('statuses');
         Schema::dropIfExists('project_user');
+        Schema::dropIfExists('project_user_roles');
         Schema::dropIfExists('projects');
     }
 };

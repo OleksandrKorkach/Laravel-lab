@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                         {{ __('Проекти') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.index')">
+                        {{ __('Статистика') }}
+                    </x-nav-link>
                 </div>
 
             </div>
@@ -36,7 +39,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Профіль') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -46,7 +49,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Вийти') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -70,6 +73,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                 {{ __('Проекти') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.index')">
+                {{ __('Статистика') }}
             </x-responsive-nav-link>
         </div>
 

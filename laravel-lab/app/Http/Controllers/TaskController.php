@@ -25,6 +25,12 @@ class TaskController extends Controller
             ->withFragment('tab-content-1');
     }
 
+    public function updateTask($taskId, Request $request): RedirectResponse
+    {
+        $this->taskService->updateTask($taskId, $request);
+        return redirect()->back();
+    }
+
     public function destroy(Request $request): RedirectResponse
     {
         $this->taskService->destroyTask($request->input('taskId'));
@@ -36,7 +42,7 @@ class TaskController extends Controller
         $taskId = $request->input('taskId');
         $userId = $request->input('userId');
 
-        $this->taskService->deleteMember($userId, $taskId);
+        $this->taskService->deleteAssignee($userId, $taskId);
 
         return redirect()->back();
     }
@@ -50,4 +56,14 @@ class TaskController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function addAssignee(Request $request): RedirectResponse
+    {
+        $taskId = $request->input('taskId');
+        $userId = $request->input('userId');
+
+        $this->taskService->addAssignee($userId, $taskId);
+        return redirect()->back();
+    }
+
 }

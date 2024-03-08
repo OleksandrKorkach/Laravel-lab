@@ -31,7 +31,7 @@ class TaskService
         Task::destroy($taskId);
     }
 
-    public function deleteMember($userId, $taskId)
+    public function deleteAssignee($userId, $taskId): void
     {
         $user = User::find($userId);
         $task = Task::find($taskId);
@@ -39,11 +39,28 @@ class TaskService
         $task->users()->detach($user);
     }
 
-    public function updateStatus(mixed $taskId, mixed $newStatusId)
+    public function addAssignee($userId, $taskId): void
+    {
+        $user = User::find($userId);
+        $task = Task::find($taskId);
+
+        $task->users()->attach($user);
+    }
+
+    public function updateStatus(mixed $taskId, mixed $newStatusId): void
     {
         $task = Task::find($taskId);
 
         $task->status_id = $newStatusId;
+        $task->save();
+    }
+
+    public function updateTask($taskId, Request $request): void
+    {
+        $task = Task::find($taskId);
+
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
         $task->save();
     }
 
